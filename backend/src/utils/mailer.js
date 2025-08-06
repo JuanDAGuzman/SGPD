@@ -1,3 +1,4 @@
+// src/utils/mailer.js
 const nodemailer = require('nodemailer');
 
 async function sendTestMail(to, subject, text, html) {
@@ -16,9 +17,12 @@ async function sendTestMail(to, subject, text, html) {
     to,
     subject,
     text,
-    html, 
+    html,
   });
-  return nodemailer.getTestMessageUrl(info);
+
+  const previewUrl = nodemailer.getTestMessageUrl(info);
+  console.log("Vista previa correo:", previewUrl);
+  return previewUrl;
 }
 
 module.exports = { sendTestMail };

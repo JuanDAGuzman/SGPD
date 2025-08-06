@@ -107,4 +107,50 @@ router.post("/login", authCtrl.login);
 
 router.post("/create-admin", require("express").json(), authCtrl.createAdmin);
 
+/**
+ * @swagger
+ * /api/auth/request-reset:
+ *   post:
+ *     summary: Solicitar restablecimiento de contraseña
+ *     tags: [Autenticación]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Correo enviado
+ */
+router.post("/request-reset", authCtrl.requestPasswordReset);
+
+/**
+ * @swagger
+ * /api/auth/reset-password:
+ *   post:
+ *     summary: Restablecer contraseña con token
+ *     tags: [Autenticación]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contraseña cambiada
+ *       400:
+ *         description: Token inválido o expirado
+ */
+router.post("/reset-password", authCtrl.resetPassword);
+
 module.exports = router;
