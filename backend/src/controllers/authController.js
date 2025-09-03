@@ -11,12 +11,10 @@ const { sendTestMail } = require("../utils/mailer");
 exports.register = async (req, res) => {
   try {
     const { name, email, password, contactInfo, clinicalInfo } = req.body;
-    // NO se recibe 'role' desde el cliente
     const exists = await User.findOne({ where: { email } });
     if (exists) return res.status(409).json({ message: "Email ya registrado" });
 
     const hashed = await bcrypt.hash(password, 10);
-    // role SIEMPRE será "patient"
     const user = await User.create({
       name,
       email,
@@ -50,7 +48,6 @@ exports.resetPassword = async (req, res) => {
     if (!user)
       return res.status(400).json({ message: "Token inválido o expirado." });
 
-    // Cambia la contraseña
     user.password = await bcrypt.hash(password, 10);
     user.resetToken = null;
     user.resetTokenExpiry = null;
@@ -76,7 +73,6 @@ exports.requestPasswordReset = async (req, res) => {
     user.resetTokenExpiry = expiry;
     await user.save();
 
-    // Enviar por correo (Ethereal en pruebas)
     const resetLink = `http://localhost:4000/api/auth/reset-password?token=${resetToken}`;
     const text = `Hola, has solicitado restablecer tu contraseña. Usa este link:\n${resetLink}\n\nEl enlace expira en 1 hora.`;
     const html = `<p>Hola, has solicitado restablecer tu contraseña.</p>
@@ -106,11 +102,20 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "8h" }
     );
-    res.json({ token });
+
+    const {
+      password: pass,
+      resetToken,
+      resetTokenExpiry,
+      ...userData
+    } = user.toJSON();
+
+    res.json({ token, user: userData });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 exports.createAdmin = async (req, res) => {
   try {
     const { name, email, password, secret } = req.body;

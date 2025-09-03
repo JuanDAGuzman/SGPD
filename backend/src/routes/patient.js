@@ -72,10 +72,10 @@ router.post(
  */
 
 router.get(
-  "/:id",
+  "/user/:userId",
   authenticate,
-  authorize("admin", "doctor"),
-  patientCtrl.getById
+  authorize("patient", "admin", "doctor"),
+  patientCtrl.getByUserId
 );
 /**
  * @swagger
@@ -112,7 +112,7 @@ router.get(
 router.put(
   "/:id",
   authenticate,
-  authorize("admin", "doctor"),
+  authorize("admin", "doctor", "patient"),
   patientCtrl.update
 );
 /**
@@ -137,5 +137,32 @@ router.put(
  */
 
 router.delete("/:id", authenticate, authorize("admin"), patientCtrl.delete);
+
+router.get(
+  "/profile",
+  authenticate,
+  authorize("patient", "admin", "doctor"),
+  async (req, res) => {
+    try {
+      const userId = req.user.id; // El userId viene del middleware de autenticación
+      const db = require("../models"); // Asegúrate que apunte a tus modelos
+      const patient = await db.Patient.findOne({
+        where: { userId },
+        include: [{ model: db.User }],
+      });
+      if (!patient) {
+        return res.status(404).json({ error: "Paciente no encontrado" });
+      }
+      res.json(patient);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "Error al obtener el perfil del paciente" });
+    }
+  }
+);
+
+router.get("/by-patient-id/:id", patientCtrl.getByPatientId);
 
 module.exports = router;

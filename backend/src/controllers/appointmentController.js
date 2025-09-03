@@ -93,7 +93,7 @@ exports.create = async (req, res) => {
 
     // Genera el link de cita virtual si aplica
     if (type === "virtual") {
-      meetingLink = "https://meet.jit.si/ConsultaMedica";
+      meetingLink = `https://meet.jit.si/ConsultaMedica-${doctorId}-${patientId}`;
     }
 
     const appointment = await Appointment.create({
