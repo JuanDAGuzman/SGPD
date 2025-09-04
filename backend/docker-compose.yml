@@ -22,12 +22,11 @@ services:
   api:
     build:
       context: .
-      target: dev       # usa el target con nodemon en desarrollo
+      target: dev       
     container_name: app_api
     environment:
       NODE_ENV: development
       PORT: 4000
-      # Cambia por tu cadena externa si NO quieres levantar el contenedor db
       DATABASE_URL: ${DATABASE_URL:-postgres://appuser:apppass@db:5432/appdb}
     ports:
       - "4000:4000"
@@ -39,7 +38,6 @@ services:
         condition: service_healthy
     profiles: ["dev"]
 
-  # Servicio efímero para correr tests en contenedor
   api-tests:
     build:
       context: .
@@ -47,7 +45,6 @@ services:
     container_name: app_api_tests
     environment:
       NODE_ENV: test
-      # Para tests puedes usar otra DB (schema o base aparte)
       DATABASE_URL: ${TEST_DATABASE_URL:-postgres://appuser:apppass@db:5432/appdb}
     depends_on:
       db:
