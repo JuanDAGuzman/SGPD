@@ -6,7 +6,6 @@ exports.createRequest = async (req, res) => {
     const { message, preferredDate } = req.body;
     const user = req.user;
 
-    // Buscar patientId desde user
     const patient = await db.Patient.findOne({ where: { userId: user.id } });
     if (!patient)
       return res.status(400).json({ error: "Paciente no encontrado" });

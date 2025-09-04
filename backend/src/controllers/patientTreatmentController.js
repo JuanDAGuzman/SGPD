@@ -3,7 +3,6 @@ const Patient = require("../models/Patient");
 const Treatment = require("../models/Treatment");
 const Doctor = require("../models/Doctor");
 
-// Listar todos los tratamientos asignados a un paciente
 exports.getAll = async (req, res) => {
   try {
     const { patientId } = req.query;
@@ -20,7 +19,6 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// Asignar tratamiento a paciente
 exports.create = async (req, res) => {
   try {
     const {
@@ -47,7 +45,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// Actualizar tratamiento asignado
 exports.update = async (req, res) => {
   try {
     const pt = await PatientTreatment.findByPk(req.params.id);
@@ -59,7 +56,6 @@ exports.update = async (req, res) => {
   }
 };
 
-// Eliminar (borrado lógico)
 exports.delete = async (req, res) => {
   try {
     const pt = await PatientTreatment.findByPk(req.params.id);

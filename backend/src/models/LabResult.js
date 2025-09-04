@@ -7,7 +7,7 @@ const LabResult = sequelize.define('LabResult', {
   patientId: { type: DataTypes.INTEGER, allowNull: false },
   date: { type: DataTypes.DATE, allowNull: false },
   description: DataTypes.TEXT,
-  resultFile: DataTypes.STRING, // puedes guardar la URL del archivo
+  resultFile: DataTypes.STRING, 
 }, {
   timestamps: true,
   paranoid: true,

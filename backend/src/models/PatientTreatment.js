@@ -8,7 +8,7 @@ const PatientTreatment = sequelize.define('PatientTreatment', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   patientId: { type: DataTypes.INTEGER, allowNull: false },
   treatmentId: { type: DataTypes.INTEGER, allowNull: false },
-  prescribedBy: { type: DataTypes.INTEGER, allowNull: false }, // doctorId
+  prescribedBy: { type: DataTypes.INTEGER, allowNull: false }, 
   startDate: { type: DataTypes.DATE, allowNull: false },
   endDate: DataTypes.DATE,
   status: { type: DataTypes.ENUM('active', 'completed', 'suspended'), defaultValue: 'active' },

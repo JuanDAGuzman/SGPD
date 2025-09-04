@@ -1,6 +1,5 @@
 const MedicalCenter = require('../models/MedicalCenter');
 
-// Crear un centro médico
 exports.create = async (req, res) => {
   try {
     const { name, address } = req.body;
@@ -11,7 +10,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// Listar todos los centros médicos
 exports.getAll = async (req, res) => {
   try {
     const centers = await MedicalCenter.findAll();
@@ -31,7 +29,6 @@ exports.update = async (req, res) => {
   }
 };
 
-// Borrado lógico de centro médico
 exports.delete = async (req, res) => {
   try {
     const center = await MedicalCenter.findByPk(req.params.id);

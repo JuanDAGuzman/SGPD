@@ -2,14 +2,11 @@ const Doctor = require('../models/Doctor');
 const User = require('../models/User');
 const MedicalCenter = require('../models/MedicalCenter');
 
-// Crear doctor (asociando userId y medicalCenterId)
 exports.create = async (req, res) => {
   try {
     const { userId, specialty, medicalCenterId } = req.body;
-    // Verifica si el usuario existe y tiene rol doctor
     const user = await User.findByPk(userId);
     if (!user || user.role !== 'doctor') return res.status(400).json({ message: 'Usuario inválido' });
-    // Verifica si ya existe doctor
     const exists = await Doctor.findOne({ where: { userId } });
     if (exists) return res.status(409).json({ message: 'Doctor ya existe' });
     const doctor = await Doctor.create({ userId, specialty, medicalCenterId });
@@ -19,7 +16,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// Listar todos los doctores (con usuario y centro médico)
 exports.getAll = async (req, res) => {
   try {
     const doctors = await Doctor.findAll({
@@ -33,7 +29,6 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-// Actualizar doctor
 exports.update = async (req, res) => {
   try {
     const doctor = await Doctor.findByPk(req.params.id);
@@ -45,7 +40,6 @@ exports.update = async (req, res) => {
   }
 };
 
-// Borrado lógico de doctor
 exports.delete = async (req, res) => {
   try {
     const doctor = await Doctor.findByPk(req.params.id);

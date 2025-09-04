@@ -2,7 +2,6 @@ const { Patient } = require("../models");
 
 const User = require("../models/User");
 
-// Listar todos los pacientes (con sus datos de usuario)
 exports.getAll = async (req, res) => {
   try {
     const patients = await Patient.findAll({
@@ -14,11 +13,9 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// Crear un paciente (requiere usuario existente)
 exports.create = async (req, res) => {
   try {
     const { userId, contactInfo, clinicalInfo } = req.body;
-    // Comprueba si ya existe paciente con ese userId
     const exists = await Patient.findOne({ where: { userId } });
     if (exists)
       return res.status(409).json({ message: "Ya existe ese paciente" });
@@ -29,7 +26,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// Obtener un paciente por ID
 exports.getByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -40,7 +36,6 @@ exports.getByUserId = async (req, res) => {
     if (!patient) {
       return res.status(404).json({ message: "Paciente no encontrado" });
     }
-    // Seguridad: solo el propio paciente, o admin/doctor puede verlo
     if (req.user.role === "paciente" && req.user.id !== patient.userId) {
       return res.status(403).json({ message: "Acceso denegado" });
     }
@@ -66,10 +61,8 @@ exports.getByPatientId = async (req, res) => {
   }
 };
 
-// Editar un paciente
 exports.update = async (req, res) => {
   try {
-    // Solo el paciente puede editarse a sí mismo (o admin/doctores, según tus reglas)
     if (req.user.role === "patient") {
       const patient = await Patient.findByPk(req.params.id);
       if (!patient || patient.userId !== req.user.id) {
@@ -84,7 +77,6 @@ exports.update = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
-// Borrado lógico
 exports.delete = async (req, res) => {
   try {
     const patient = await Patient.findByPk(req.params.id);

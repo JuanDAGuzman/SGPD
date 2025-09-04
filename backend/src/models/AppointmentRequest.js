@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const AppointmentRequest = sequelize.define("AppointmentRequest", {
-  // Tus campos aquí, por ejemplo:
   patientId: {
     type: DataTypes.INTEGER,
     allowNull: false,

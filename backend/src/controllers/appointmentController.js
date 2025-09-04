@@ -6,7 +6,6 @@ const { nanoid } = require("nanoid");
 const { Op } = require("sequelize");
 const { sendTestMail } = require("../utils/mailer");
 
-// Listar todas las citas (puedes filtrar por doctor, paciente o ver todas)
 exports.getAll = async (req, res) => {
   try {
     const { patientId, doctorId } = req.query;
@@ -49,7 +48,7 @@ exports.finishAllByPatient = async (req, res) => {
         },
       }
     );
-    res.json({ message: "Citas finalizadas", updated: result[0] }); // result[0] es el número de citas actualizadas
+    res.json({ message: "Citas finalizadas", updated: result[0] });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -61,7 +60,6 @@ exports.create = async (req, res) => {
       req.body;
     let meetingLink = null;
 
-    // 1. Verifica que NO haya otra cita activa en ese mismo horario para ese paciente o doctor
     const citaOcupada = await Appointment.findOne({
       where: {
         [Op.or]: [{ patientId }, { doctorId }],
@@ -76,7 +74,6 @@ exports.create = async (req, res) => {
       });
     }
 
-    // 2. Verifica que NO haya citas anteriores pendientes para el paciente
     const citaPendiente = await Appointment.findOne({
       where: {
         patientId,
@@ -91,7 +88,6 @@ exports.create = async (req, res) => {
       });
     }
 
-    // Genera el link de cita virtual si aplica
     if (type === "virtual") {
       meetingLink = `https://meet.jit.si/ConsultaMedica-${doctorId}-${patientId}`;
     }
@@ -108,13 +104,10 @@ exports.create = async (req, res) => {
       meetingLink,
     });
 
-    // 👉 Notificaciones por correo usando Ethereal (con HTML bonito)
     try {
-      // Buscar datos del paciente y doctor
       const paciente = await User.findByPk(patientId);
       const doctor = await User.findByPk(doctorId);
 
-      // Texto simple
       let textoPaciente = `Hola ${paciente.name}, tu cita fue programada para el ${date}.`;
       let textoDoctor = `Hola Dr(a). ${doctor.name}, tienes una nueva cita con ${paciente.name} el ${date}.`;
       if (type === "virtual") {
@@ -125,7 +118,6 @@ exports.create = async (req, res) => {
         textoDoctor += `\nLugar: ${location} - Consultorio: ${room}`;
       }
 
-      // 🎨 HTML bonito
       const htmlPaciente = `
         <div style="font-family: Arial, sans-serif; color: #222;">
           <h2>¡Hola ${paciente.name}!</h2>
@@ -158,7 +150,6 @@ exports.create = async (req, res) => {
         </div>
       `;
 
-      // Enviar notificación al paciente
       const linkPaciente = await sendTestMail(
         paciente.email,
         "Nueva cita agendada",
@@ -167,7 +158,6 @@ exports.create = async (req, res) => {
       );
       console.log("Vista previa correo paciente:", linkPaciente);
 
-      // Enviar notificación al doctor
       const linkDoctor = await sendTestMail(
         doctor.email,
         "Nueva cita asignada",
@@ -185,7 +175,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// Obtener cita por ID
 exports.getById = async (req, res) => {
   try {
     const appointment = await Appointment.findByPk(req.params.id, {
@@ -207,7 +196,6 @@ exports.getById = async (req, res) => {
   }
 };
 
-// Editar cita
 exports.update = async (req, res) => {
   try {
     const appointment = await Appointment.findByPk(req.params.id);
@@ -219,7 +207,6 @@ exports.update = async (req, res) => {
   }
 };
 
-// Borrado lógico (cancelar cita)
 exports.delete = async (req, res) => {
   try {
     const appointment = await Appointment.findByPk(req.params.id);

@@ -7,7 +7,6 @@ const crypto = require("crypto");
 const { Op } = require("sequelize");
 const { sendTestMail } = require("../utils/mailer");
 
-// Registro de usuarios (admin, doctor, patient)
 exports.register = async (req, res) => {
   try {
     const { name, email, password, contactInfo, clinicalInfo } = req.body;
@@ -86,7 +85,6 @@ exports.requestPasswordReset = async (req, res) => {
   }
 };
 
-// Login de usuario
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;

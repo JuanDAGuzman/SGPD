@@ -1,10 +1,9 @@
 const { Op, fn, col } = require('sequelize');
 const Appointment = require('../models/Appointment');
 
-// Citas por estado y rango de fechas
 exports.citasPorEstado = async (req, res) => {
   try {
-    const { start, end } = req.query; // ej: '2024-08-01', '2024-08-31'
+    const { start, end } = req.query; 
     const where = {};
     if (start && end) {
       where.date = { [Op.between]: [start, end] };
