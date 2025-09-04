@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: app_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+      POSTGRES_USER: ${POSTGRES_USER:-appuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-apppass}
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-appuser} -d ${POSTGRES_DB:-appdb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    profiles: ["dev","test"]
+
+  api:
+    build:
+      context: .
+      target: dev       # usa el target con nodemon en desarrollo
+    container_name: app_api
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      # Cambia por tu cadena externa si NO quieres levantar el contenedor db
+      DATABASE_URL: ${DATABASE_URL:-postgres://appuser:apppass@db:5432/appdb}
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ["dev"]
+
+  # Servicio efímero para correr tests en contenedor
+  api-tests:
+    build:
+      context: .
+      target: test
+    container_name: app_api_tests
+    environment:
+      NODE_ENV: test
+      # Para tests puedes usar otra DB (schema o base aparte)
+      DATABASE_URL: ${TEST_DATABASE_URL:-postgres://appuser:apppass@db:5432/appdb}
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ["test"]
+
+volumes:
+  dbdata:

@@ -1,11 +1,9 @@
-echo "# Environment variables" > .gitignore
-echo ".env" >> .gitignore
-echo ".env.local" >> .gitignore
-echo ".env.production" >> .gitignore
-echo "" >> .gitignore
-echo "# Node modules" >> .gitignore
-echo "node_modules/" >> .gitignore
-echo "" >> .gitignore
-echo "# Logs" >> .gitignore
-echo "*.log" >> .gitignore
-echo "npm-debug.log*" >> .gitignore
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+*.log

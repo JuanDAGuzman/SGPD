@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1756957854974" clover="3.2.0">
-  <project timestamp="1756957854975" name="All files">
+<coverage generated="1756958488587" clover="3.2.0">
+  <project timestamp="1756958488587" name="All files">
     <metrics statements="31" coveredstatements="31" conditionals="10" coveredconditionals="10" methods="3" coveredmethods="3" elements="44" coveredelements="44" complexity="0" loc="31" ncloc="31" packages="1" files="1" classes="1"/>
     <file name="appointmentRequestController.js" path="C:\Users\guzma\OneDrive\Documentos\SGPD\SGPD\backend\src\controllers\appointmentRequestController.js">
       <metrics statements="31" coveredstatements="31" conditionals="10" coveredconditionals="10" methods="3" coveredmethods="3"/>
@@ -10,31 +10,31 @@
       <line num="5" count="8" type="stmt"/>
       <line num="6" count="8" type="stmt"/>
       <line num="7" count="8" type="stmt"/>
-      <line num="10" count="8" type="stmt"/>
-      <line num="11" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="12" count="3" type="stmt"/>
-      <line num="14" count="4" type="stmt"/>
-      <line num="20" count="4" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="25" count="3" type="stmt"/>
+      <line num="9" count="8" type="stmt"/>
+      <line num="10" count="7" type="cond" truecount="2" falsecount="0"/>
+      <line num="11" count="3" type="stmt"/>
+      <line num="13" count="4" type="stmt"/>
+      <line num="19" count="4" type="stmt"/>
+      <line num="21" count="1" type="stmt"/>
+      <line num="24" count="3" type="stmt"/>
+      <line num="25" count="5" type="stmt"/>
       <line num="26" count="5" type="stmt"/>
       <line num="27" count="5" type="stmt"/>
-      <line num="28" count="5" type="stmt"/>
-      <line num="29" count="5" type="cond" truecount="2" falsecount="0"/>
-      <line num="31" count="5" type="stmt"/>
-      <line num="32" count="4" type="stmt"/>
-      <line num="34" count="1" type="stmt"/>
-      <line num="37" count="3" type="stmt"/>
+      <line num="28" count="5" type="cond" truecount="2" falsecount="0"/>
+      <line num="30" count="5" type="stmt"/>
+      <line num="31" count="4" type="stmt"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="36" count="3" type="stmt"/>
+      <line num="37" count="5" type="stmt"/>
       <line num="38" count="5" type="stmt"/>
       <line num="39" count="5" type="stmt"/>
-      <line num="40" count="5" type="stmt"/>
-      <line num="42" count="5" type="stmt"/>
-      <line num="43" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="44" count="1" type="stmt"/>
-      <line num="47" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="48" count="3" type="stmt"/>
-      <line num="50" count="2" type="stmt"/>
-      <line num="52" count="2" type="stmt"/>
+      <line num="41" count="5" type="stmt"/>
+      <line num="42" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="46" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="3" type="stmt"/>
+      <line num="49" count="2" type="stmt"/>
+      <line num="51" count="2" type="stmt"/>
     </file>
   </project>
 </coverage>
