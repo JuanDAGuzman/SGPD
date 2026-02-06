@@ -16,8 +16,9 @@ const Appointment = sequelize.define('Appointment', {
     type: DataTypes.ENUM('presencial', 'virtual'),
     defaultValue: 'presencial'
   },
-  location: DataTypes.STRING,    // solo presencial
-  room: DataTypes.STRING,        // solo presencial
+  location: DataTypes.STRING,    // nombre centro médico
+  address: DataTypes.STRING,     // dirección física (opcional)
+  room: DataTypes.STRING,        // consultorio
   meetingLink: DataTypes.STRING, // solo virtual
   notes: DataTypes.TEXT
 }, {

@@ -109,6 +109,51 @@ router.post("/create-admin", require("express").json(), authCtrl.createAdmin);
 
 /**
  * @swagger
+ * /api/auth/register-doctor:
+ *   post:
+ *     summary: Registrar nuevo doctor (solo admin)
+ *     tags: [Autenticación]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               documentType:
+ *                 type: string
+ *               documentNumber:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               birthDate:
+ *                 type: string
+ *               specialty:
+ *                 type: string
+ *               professionalLicense:
+ *                 type: string
+ *               medicalCenterId:
+ *                 type: integer
+ *               city:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Doctor registrado
+ *       409:
+ *         description: Email ya registrado
+ */
+router.post("/register-doctor", authCtrl.registerDoctor);
+
+/**
+ * @swagger
  * /api/auth/request-reset:
  *   post:
  *     summary: Solicitar restablecimiento de contraseña
@@ -152,5 +197,33 @@ router.post("/request-reset", authCtrl.requestPasswordReset);
  *         description: Token inválido o expirado
  */
 router.post("/reset-password", authCtrl.resetPassword);
+
+/**
+ * @swagger
+ * /api/auth/change-password:
+ *   put:
+ *     summary: Cambiar contraseña del usuario autenticado
+ *     tags: [Autenticación]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada
+ *       401:
+ *         description: Contraseña actual incorrecta
+ */
+const { authenticate } = require('../middleware/auth');
+router.put("/change-password", authenticate, authCtrl.changePassword);
 
 module.exports = router;

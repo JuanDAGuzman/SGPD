@@ -45,6 +45,110 @@ router.post("/", authenticate, authorize("admin"), ctrl.create);
  */
 router.get("/", authenticate, authorize("admin", "doctor"), ctrl.getAll);
 
+router.get(
+    "/profile",
+    authenticate,
+    authorize("doctor", "admin"),
+    async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const db = require("../models");
+            const doctor = await db.Doctor.findOne({
+                where: { userId },
+                include: [{ model: db.User }, { model: db.MedicalCenter }],
+            });
+            if (!doctor) {
+                return res.status(404).json({ error: "Perfil de doctor no encontrado" });
+            }
+            res.json(doctor);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Error al obtener perfil" });
+        }
+    }
+);
+
+/**
+ * @swagger
+ * /api/doctors/profile:
+ *   put:
+ *     summary: Actualizar perfil propio del doctor
+ *     tags: [Doctores]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               specialty:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Perfil actualizado correctamente
+ *       404:
+ *         description: Perfil no encontrado
+ */
+router.put(
+    "/profile",
+    authenticate,
+    authorize("doctor"),
+    async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const { name, specialty, phone, city } = req.body;
+            const db = require("../models");
+
+            // Buscar el doctor
+            const doctor = await db.Doctor.findOne({
+                where: { userId },
+                include: [{ model: db.User }],
+            });
+
+            if (!doctor) {
+                return res.status(404).json({ error: "Perfil de doctor no encontrado" });
+            }
+
+            // Actualizar campos del doctor
+            if (specialty !== undefined) {
+                await doctor.update({ specialty });
+            }
+
+            // Actualizar campos del usuario
+            const updateUserData = {};
+            if (name !== undefined) updateUserData.name = name;
+            if (phone !== undefined) updateUserData.phone = phone;
+            if (city !== undefined) updateUserData.city = city;
+
+            if (Object.keys(updateUserData).length > 0) {
+                await doctor.User.update(updateUserData);
+            }
+
+            // Recargar el doctor con datos actualizados
+            const updatedDoctor = await db.Doctor.findOne({
+                where: { userId },
+                include: [{ model: db.User }, { model: db.MedicalCenter }],
+            });
+
+            res.json({
+                message: "Perfil actualizado correctamente",
+                doctor: updatedDoctor
+            });
+        } catch (error) {
+            console.error("Error al actualizar perfil:", error);
+            res.status(500).json({ error: "Error al actualizar perfil" });
+        }
+    }
+);
+
 /**
  * @swagger
  * /api/doctors/{id}:

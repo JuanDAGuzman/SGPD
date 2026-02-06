@@ -17,6 +17,7 @@ require("./models/LabResult");
 require("./models/Treatment");
 require("./models/PatientTreatment");
 require("./models/HealthTip");
+require("./models/Notification");
 
 const isTest = process.env.NODE_ENV === "test";
 
@@ -42,6 +43,7 @@ if (!isTest) {
   app.use("/api/reports", require("./routes/report"));
   app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use("/api/auth", require("./routes/auth"));
+  app.use("/api/users", require("./routes/user"));
   app.use("/api/patients", require("./routes/patient"));
   app.use("/api/doctors", require("./routes/doctor"));
   app.use("/api/appointments", require("./routes/appointment"));
@@ -55,6 +57,8 @@ if (!isTest) {
   app.use("/api/appointment-requests", require("./routes/appointmentRequest"));
   app.use("/api/health-tips", require("./routes/healthTip"));
   app.use("/api/news", require("./routes/news"));
+  app.use("/api/notifications", require("./routes/notification"));
+  app.use("/api/stats", require("./routes/stats"));
 
   // Conectar y luego sincronizar (sin romper el proceso si tarda)
   (async () => {

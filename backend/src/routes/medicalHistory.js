@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require('../controllers/medicalHistoryController');
+const medicalHistoryController = require('../controllers/medicalHistoryController');
 const { authenticate, authorize } = require('../middleware/auth');
 
-// Solo admin y doctor pueden crear/modificar historial médico
-router.get('/', authenticate, authorize('admin', 'doctor'), ctrl.getAll);
-router.post('/', authenticate, authorize('admin', 'doctor'), ctrl.create);
-router.get('/:id', authenticate, authorize('admin', 'doctor'), ctrl.getById);
-router.put('/:id', authenticate, authorize('admin', 'doctor'), ctrl.update);
-router.delete('/:id', authenticate, authorize('admin'), ctrl.delete);
+// Rutas
+// Crear: solo doctores o admin
+router.post('/', authenticate, authorize('doctor', 'admin'), medicalHistoryController.create);
+
+// Obtener por paciente: pacientes (el suyo propio), doctores y admins
+router.get('/', authenticate, authorize('patient', 'doctor', 'admin'), medicalHistoryController.getByPatient);
+
+// Obtener por ID: igual
+// Obtener stats
+router.get('/stats', authenticate, authorize('patient', 'doctor', 'admin'), medicalHistoryController.getPatientStats);
+router.get('/active-treatments', authenticate, authorize('patient', 'doctor'), medicalHistoryController.getActiveTreatments);
+router.get('/:id', authenticate, authorize('patient', 'doctor', 'admin'), medicalHistoryController.getById);
 
 module.exports = router;

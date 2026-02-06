@@ -89,9 +89,14 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(401).json({ message: "No existe usuario" });
+    if (!user) {
+      console.log(`Login fallido: Usuario no encontrado para mail ${email}`);
+      return res.status(401).json({ message: "No existe usuario" });
+    }
 
     const ok = await bcrypt.compare(password, user.password);
+    console.log(`Intento de login para ${email}. Hash en DB: ${user.password.substring(0, 10)}... Coincide: ${ok}`);
+
     if (!ok)
       return res.status(401).json({ message: "Credenciales incorrectas" });
 
@@ -107,6 +112,17 @@ exports.login = async (req, res) => {
       resetTokenExpiry,
       ...userData
     } = user.toJSON();
+
+    // Adjuntar IDs específicos según el rol
+    if (user.role === 'doctor') {
+      const Doctor = require("../models/Doctor");
+      const doc = await Doctor.findOne({ where: { userId: user.id } });
+      if (doc) userData.doctorId = doc.id;
+    } else if (user.role === 'patient') {
+      const Patient = require("../models/Patient");
+      const pat = await Patient.findOne({ where: { userId: user.id } });
+      if (pat) userData.patientId = pat.id;
+    }
 
     res.json({ token, user: userData });
   } catch (err) {
@@ -137,5 +153,70 @@ exports.createAdmin = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+exports.registerDoctor = async (req, res) => {
+  try {
+    const { name, email, password, phone, documentType, documentNumber, gender, birthDate, specialty, professionalLicense, medicalCenterId, city } = req.body;
+
+    const exists = await User.findOne({ where: { email } });
+    if (exists) return res.status(409).json({ message: "Email ya registrado" });
+
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      name,
+      email,
+      password: hashed,
+      role: "doctor",
+    });
+
+    const Doctor = require("../models/Doctor");
+    const doctor = await Doctor.create({
+      userId: user.id,
+      specialty: specialty || "",
+      medicalCenterId: medicalCenterId || null,
+    });
+
+    res.status(201).json({
+      message: "Doctor registrado exitosamente",
+      user: { id: user.id, name, email, role: "doctor" },
+      doctor: { id: doctor.id, specialty: doctor.specialty },
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
+// Cambiar contraseña del usuario autenticado
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    // Buscar el usuario
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Verificar la contraseña actual
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isValid) {
+      return res.status(401).json({ error: "Contraseña actual incorrecta" });
+    }
+
+    // Hash de la nueva contraseña
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Actualizar contraseña
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ message: "Contraseña actualizada correctamente" });
+  } catch (err) {
+    console.error("Error al cambiar contraseña:", err);
+    res.status(500).json({ error: err.message });
   }
 };

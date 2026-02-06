@@ -2,9 +2,27 @@ const MedicalCenter = require('../models/MedicalCenter');
 
 exports.create = async (req, res) => {
   try {
-    const { name, address } = req.body;
-    const center = await MedicalCenter.create({ name, address });
-    res.status(201).json(center);
+    const { name, type, address, city, department, phone, email, regime } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: 'El nombre del centro es obligatorio' });
+    }
+
+    const center = await MedicalCenter.create({
+      name,
+      type,
+      address,
+      city,
+      department,
+      phone,
+      email,
+      regime
+    });
+
+    res.status(201).json({
+      message: 'Centro de salud registrado exitosamente',
+      center
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

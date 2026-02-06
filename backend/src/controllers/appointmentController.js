@@ -56,7 +56,7 @@ exports.finishAllByPatient = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { patientId, doctorId, date, status, notes, type, location, room } =
+    const { patientId, doctorId, date, status, notes, type, location, address, room } =
       req.body;
     let meetingLink = null;
 
@@ -89,7 +89,9 @@ exports.create = async (req, res) => {
     }
 
     if (type === "virtual") {
-      meetingLink = `https://meet.jit.si/ConsultaMedica-${doctorId}-${patientId}`;
+      // Usar un ID único para la sala para evitar conflictos
+      const uniqueRoomId = `SGPD-Cita-${nanoid(10)}`;
+      meetingLink = `https://meet.jit.si/${uniqueRoomId}`;
     }
 
     const appointment = await Appointment.create({
@@ -100,9 +102,26 @@ exports.create = async (req, res) => {
       notes,
       type: type || "presencial",
       location: type === "presencial" ? location : null,
+      address: type === "presencial" ? address : null,
       room: type === "presencial" ? room : null,
       meetingLink,
     });
+
+    // Si la cita proviene de una solicitud, actualizamos la solicitud
+    if (req.body.requestId) {
+      const AppointmentRequest = require("../models/AppointmentRequest");
+      try {
+        const request = await AppointmentRequest.findByPk(req.body.requestId);
+        if (request) {
+          request.status = 'aceptada';
+          request.appointmentId = appointment.id;
+          request.assignedDoctorId = doctorId;
+          await request.save();
+        }
+      } catch (reqErr) {
+        console.warn("No se pudo actualizar la solicitud asociada:", reqErr.message);
+      }
+    }
 
     try {
       const paciente = await User.findByPk(patientId);
@@ -110,24 +129,25 @@ exports.create = async (req, res) => {
 
       let textoPaciente = `Hola ${paciente.name}, tu cita fue programada para el ${date}.`;
       let textoDoctor = `Hola Dr(a). ${doctor.name}, tienes una nueva cita con ${paciente.name} el ${date}.`;
+
       if (type === "virtual") {
         textoPaciente += `\nEnlace de consulta virtual: ${meetingLink}`;
         textoDoctor += `\nEnlace de consulta virtual: ${meetingLink}`;
       } else {
-        textoPaciente += `\nLugar: ${location} - Consultorio: ${room}`;
-        textoDoctor += `\nLugar: ${location} - Consultorio: ${room}`;
+        const addrText = address ? ` (${address})` : '';
+        textoPaciente += `\nLugar: ${location}${addrText} - Consultorio: ${room}`;
+        textoDoctor += `\nLugar: ${location}${addrText} - Consultorio: ${room}`;
       }
 
       const htmlPaciente = `
         <div style="font-family: Arial, sans-serif; color: #222;">
           <h2>¡Hola ${paciente.name}!</h2>
           <p>Tu cita fue <b>programada</b> para el <b>${date}</b>.</p>
-          ${
-            type === "virtual"
-              ? `<p><b>Enlace de consulta virtual:</b><br>
+          ${type === "virtual"
+          ? `<p><b>Enlace de consulta virtual:</b><br>
                  <a href="${meetingLink}" style="color: #0a77e6;">${meetingLink}</a></p>`
-              : `<p><b>Lugar:</b> ${location} - <b>Consultorio:</b> ${room}</p>`
-          }
+          : `<p><b>Lugar:</b> ${location} ${address ? `(${address})` : ''} - <b>Consultorio:</b> ${room}</p>`
+        }
           <hr>
           <p style="font-size: 0.95em; color: #888;">Gracias por confiar en nuestro sistema clínico.</p>
         </div>
@@ -136,15 +156,13 @@ exports.create = async (req, res) => {
       const htmlDoctor = `
         <div style="font-family: Arial, sans-serif; color: #222;">
           <h2>¡Nueva cita asignada!</h2>
-          <p>Dr(a). <b>${doctor.name}</b>, tienes una cita con <b>${
-        paciente.name
-      }</b> el <b>${date}</b>.</p>
-          ${
-            type === "virtual"
-              ? `<p><b>Enlace de consulta virtual:</b><br>
+          <p>Dr(a). <b>${doctor.name}</b>, tienes una cita con <b>${paciente.name
+        }</b> el <b>${date}</b>.</p>
+          ${type === "virtual"
+          ? `<p><b>Enlace de consulta virtual:</b><br>
                  <a href="${meetingLink}" style="color: #0a77e6;">${meetingLink}</a></p>`
-              : `<p><b>Lugar:</b> ${location} - <b>Consultorio:</b> ${room}</p>`
-          }
+          : `<p><b>Lugar:</b> ${location} - <b>Consultorio:</b> ${room}</p>`
+        }
           <hr>
           <p style="font-size: 0.95em; color: #888;">Este es un mensaje automático de SGPD.</p>
         </div>
