@@ -1,0 +1,18 @@
+:root {
+    /* ESPACIADOS */
+    --margin-page: 0;
+    --padding-page: 0;
+
+    /* TIPOGRAFIA */
+    --font-primary: "Quicksand", serif;
+    --font-title: 2rem;
+    --font-subtitle: 1.2rem;
+    --font-text: 1rem;
+
+    /* PALETA DE COLORES */
+    --red-primary: #B71C1C;
+    --white: #ffffff;
+    --black: #000000;
+    --border: #7d7f81;
+    --red-secundary: #900000;
+}

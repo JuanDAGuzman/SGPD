@@ -1,0 +1,36 @@
+@import "../../styles/global.css";
+
+.card {
+    font-family: var(--font-primary);
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 200px;
+    height: 140px;
+    margin: 20px;
+    box-shadow: 0 10px 25px rgb(112, 2, 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 32px rgb(138, 2, 2);
+}
+
+.cardIcon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--red-primary);
+}
+
+.cardTitle {
+    font-weight: bold;
+    font-size: var(--font-subtitle);
+}

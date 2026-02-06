@@ -1,0 +1,12 @@
+@import "../../../../styles/global.css";
+
+.healtCenter_list{
+    font-family: var(--font-primary);
+    padding: var(--padding-page);
+    margin: var(--margin-page);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}

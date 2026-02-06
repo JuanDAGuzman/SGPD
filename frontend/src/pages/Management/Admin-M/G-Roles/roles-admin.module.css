@@ -1,0 +1,97 @@
+@import "../../../../styles/global.css";
+
+.Manage_roles {
+    font-family: var(--font-primary);
+    padding: var(--padding-page);
+    margin: var(--margin-page);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.title {
+    margin-top: 120px;
+    font-size: 2rem;
+    color: var(--red-primary);
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+} 
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 3fr;  /* Sidebar más pequeño */
+    grid-template-rows: auto 1fr;  /* La segunda fila crece automáticamente */
+    align-items: start;
+    padding: 20px;
+}
+
+
+.subtitle {
+    font-size: var(--font-subtitle);
+    color: var(--red-primary);
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: -10px;  /* Ajusta según sea necesario */
+}
+
+.sidebar {
+    margin-top: 70px;
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(224, 224, 224);
+    padding: 12px;
+    gap: 24px;
+    border-radius: 16px;
+    width: 168px;
+    align-self: start;
+}
+
+.button {
+    width: 90%;
+    padding: 10px;
+    background: #e71010;
+    color: var(--white);
+    font-size: var(--font-text);
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    
+}
+
+.button:hover {
+    background: var(--red-secundary);
+    transform: scale(1.1); 
+}
+
+.tableCard {
+    width: 80%;
+    max-width: 1000px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.mainContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}

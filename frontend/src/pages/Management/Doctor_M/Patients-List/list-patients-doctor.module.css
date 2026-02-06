@@ -1,0 +1,116 @@
+@import "../../../../styles/global.css";
+
+.List_Patients_Doc {
+    font-family: var(--font-primary);
+    padding: var(--padding-page);
+    margin: var(--margin-page);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.logo {
+    position: absolute;
+    top: 120px; /* ajusta según la altura de tu navbar */
+    right: -55px;
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+    z-index: 1;
+    opacity: 0.5; /* Opcional para estilo visual */
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    align-items: start;
+    padding: 20px;
+    gap: 10px;
+}
+
+.title {
+    margin-top: 85px;
+    font-size: 2rem;
+    color: var(--red-primary);
+    font-weight: bold;
+    display: flex;
+} 
+
+.btn {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button {
+    width: auto;
+    height: auto;
+    padding: 8px;
+    background: var(--red-primary);
+    color: var(--white);
+    font-size: var(--font-subtitle);
+    font-weight: bold;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.button:hover {
+    background: var(--red-secundary);
+    transform: scale(1.1); 
+}
+
+.sectBuscar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 20px;
+    justify-content: start;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: start;
+    width: 200px;
+}
+
+.label {
+    font-size: var(--font-text);
+    font-weight: bold;
+    color: var(--border);
+    padding-left: 5px;
+}
+
+.buscar {
+    width: 100%;
+    max-width: 200px;
+    height: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    outline: none;
+    background: rgb(184, 182, 182);
+    font-size: var(--font-text);
+    color: var(--black);
+}
+
+.gridinfo {
+    font-size: var(--font-subtitle);
+    font-weight: bold;
+    color: var(--red-secundary);
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1.5fr 2fr 2fr 3fr;
+    align-items: center;
+    padding: 15px 20px;
+    margin-top: 30px;
+    border-bottom: 2px solid var(--red-primary); /* <- Esta es la línea */
+}
+
+.acciones {
+    text-align: center;
+    justify-self: center;
+}

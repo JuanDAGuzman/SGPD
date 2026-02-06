@@ -1,0 +1,12 @@
+/* DEFINIR LOS ESTILOS PRINCIPALES PARA TOMAR DE ACA */
+@import "tailwindcss";
+
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Quicksand", serif;
+
+}

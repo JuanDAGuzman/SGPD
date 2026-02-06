@@ -1,0 +1,137 @@
+@import "../../styles/global.css";
+
+/* Estilos globales para react-calendar */
+:global(div.react-calendar) {
+  width: 465px !important;
+  font-size: var(--font-subtitle);
+  border-radius: 16px;
+  padding: 12px;
+  background-color: var(--white);
+  font-family: var(--font-title);
+  box-shadow: 0 12px 24px rgb(112, 2, 2);
+  transition: all 0.3s ease;
+}
+
+
+:global(.react-calendar:hover) {
+  transform: translateY(-5px);
+  transform: scale(1.05);
+  box-shadow: 0 18px 32px rgb(138, 2, 2);
+}
+
+:global(.react-calendar__navigation) {
+  background-color: var(--red-primary);
+  color: var(--white);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+:global(.react-calendar__navigation button) {
+  color: var(--white);
+  font-size: var(--font-subtitle);
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: transparent !important; /* Fondo siempre transparente */
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* Estado hover */
+:global(.react-calendar__navigation button:hover:not(:disabled)) {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Estado active (al hacer clic) */
+:global(.react-calendar__navigation button:active:not(:disabled)) {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(0.95);
+}
+
+/* Estado disabled */
+:global(.react-calendar__navigation button:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Elimina el estilo de focus por defecto */
+:global(.react-calendar__navigation button:focus) {
+  outline: none;
+  box-shadow: none;
+}
+
+:global(.react-calendar__month-view__weekdays__weekday) abbr {
+  -webkit-text-decoration: none !important; 
+  text-decoration: none !important;         
+  border-bottom: 0 !important;
+  font-weight: bold;
+  font-size: var(--font-subtitle); 
+  color: var(--black); 
+}
+
+:global(.react-calendar__month-view__weekdays__weekday:hover) {
+  text-decoration: none !important;
+}
+
+:global(.react-calendar__tile) {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-title);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin: 3px auto;
+}
+
+:global(.react-calendar__tile--now) {
+  background-color: rgba(231, 16, 16, 0.15);
+  color: var(--red-primary);
+  font-weight: bold;
+}
+
+:global(.react-calendar__tile--now:hover) {
+  background-color: rgba(231, 16, 16, 0.3) !important;
+}
+
+/* Hace que el círculo activo sea IDÉNTICO al hover */
+:global(.react-calendar__tile--active) {
+  width: 40px !important;       /* Mismo tamaño que el hover */
+  height: 40px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  margin: 3px auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--red-primary) !important;
+  color: var(--white) !important;
+  transform: none !important;   /* Elimina cualquier escala */
+  box-shadow: none !important; /* Elimina sombras */
+}
+
+:global(.react-calendar__tile:hover:not(.react-calendar__tile--active)) {
+  background-color: rgba(231, 16, 16, 0.2) !important;
+  color: var(--red-primary) !important;
+  transform: scale(1.05);
+}
+
+:global(.react-calendar__month-view__days__day--weekend) {
+  color: var(--red-primary);
+}
+
+:global(.react-calendar__month-view__days__day--neighboringMonth) {
+  opacity: 0.4;
+}

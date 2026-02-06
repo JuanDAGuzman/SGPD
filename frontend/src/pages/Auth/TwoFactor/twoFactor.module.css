@@ -1,0 +1,39 @@
+@import "../../../styles/global.css";
+
+.twoFactor {
+    font-family: var(--font-primary);
+    padding: var(--padding-page);
+    margin: var(--margin-page);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.container {
+    width: 100vh;
+    width: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--red-secundary);
+    border: none;
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    margin-top: 6px;
+  }
+  
+  .btn:hover {
+    background: var(--red-primary);
+    transform: scale(1.1); 
+  }

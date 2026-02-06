@@ -1,0 +1,10 @@
+node_modules
+dist
+.vite
+.DS_Store
+
+# Archivos de configuración y logs locales
+.env
+.env.local
+npm-debug.log
+yarn-error.log

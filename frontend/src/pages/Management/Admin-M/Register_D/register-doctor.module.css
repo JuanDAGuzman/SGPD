@@ -1,0 +1,268 @@
+@import "../../../../styles/global.css";
+
+/* Contenedor principal de la página */
+.Register_Doctor {
+    font-family: var(--font-primary);
+    background-color: #f8f9fa; /* Fondo gris muy claro */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Área de contenido principal (título + formulario) */
+.mainContentArea {
+    width: 100%;
+    max-width: 1000px; /* Ancho máximo para el contenido principal */
+    margin: 105px auto 40px auto; /* Margen superior para compensar el Navbar, centrado horizontalmente */
+    padding: 0 20px; /* Padding lateral para que no se pegue a los bordes */
+    box-sizing: border-box; /* Incluir padding en el ancho total */
+}
+
+/* Título "Registrar Usuario" */
+.title {
+    font-size: 2.2rem; /* Tamaño un poco más grande */
+    color: var(--red-primary);
+    font-weight: bold;
+    margin-bottom: 30px; /* Espacio debajo del título */
+    text-align: left; /* Alineado a la izquierda dentro del mainContentArea */
+}
+
+/* Contenedor principal del formulario */
+.formContainer {
+    border: 1px solid #ddd; /* Borde más sutil */
+    border-radius: 12px; /* Bordes más suaves */
+    padding: 40px;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espacio entre secciones del formulario */
+}
+
+/* Wrapper para la imagen de perfil y las columnas de inputs */
+.imageAndInputsWrapper {
+    display: flex;
+    flex-direction: row; /* Por defecto, uno al lado del otro */
+    align-items: flex-start; /* Alinea arriba el contenido de las columnas */
+    gap: 50px; /* Espacio entre la imagen y las columnas */
+    flex-wrap: wrap; /* Permite que se apilen en pantallas pequeñas */
+}
+
+/* Contenedor de la imagen de perfil */
+.imageContainer {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--red-primary); /* Borde de color primario */
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+    margin-bottom: 20px; /* Espacio si se apila debajo de los inputs */
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.editOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100%; /* Ocupa todo el alto */
+    background-color: rgba(128, 0, 0, 0.6); /* Rojo oscuro semi-transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.imageContainer:hover .editOverlay {
+    opacity: 1;
+}
+
+.editOverlay i {
+    font-size: 2rem; /* Ícono un poco más grande */
+    color: white;
+}
+
+/* Contenedor de los inputs - ¡AHORA ES UN GRID! */
+.inputsGrid {
+    flex: 1; /* Permite que el grid ocupe el espacio restante */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 2 columnas o más, responsivas */
+    gap: 30px 40px; /* Espacio vertical y horizontal entre columnas */
+    width: 100%; /* Asegura que el grid ocupe el ancho disponible */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre elementos dentro de cada columna */
+}
+
+/* Estilos para etiquetas (labels) */
+.column label {
+    font-weight: 600; /* Etiquetas más prominentes */
+    color: #555;
+    margin-bottom: -5px; /* Ajuste para acercar el label al input */
+}
+
+.info {
+    border: none;
+    border-bottom: 1px solid #ccc; /* Borde inferior más delgado */
+    padding: 10px 0; /* Padding solo arriba y abajo */
+    font-size: 1rem;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    transition: border-bottom-color 0.3s ease;
+}
+
+.info:focus {
+    border-bottom-color: var(--red-primary); /* Resaltar al enfocar */
+}
+
+.docRow {
+    display: flex;
+    gap: 10px; /* Espacio entre el select y el input del documento */
+    align-items: flex-end; /* Alinea los elementos al final */
+}
+
+.docRow .info {
+    flex: 1; /* El input del documento ocupa el espacio restante */
+}
+
+.Select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    min-width: 100px; /* Ancho mínimo para el select de tipo de documento */
+}
+
+.genderContainer {
+    display: flex;
+    gap: 20px; /* Espacio entre las opciones de radio */
+    margin-top: 5px; /* Espacio con el label */
+}
+
+.genderContainer label {
+    font-weight: normal; /* Etiquetas de radio no negritas */
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Botones de acción */
+.buttons {
+    display: flex;
+    justify-content: flex-end; /* Alineados a la derecha */
+    gap: 20px;
+    margin-top: 30px; /* Más espacio superior */
+}
+
+.cancelButton,
+.registerButton {
+    min-width: 120px; /* Ancho mínimo */
+    padding: 12px 25px; /* Más padding para hacerlos más grandes */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Bordes más sutiles */
+    color: white;
+    background-color: var(--red-primary);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+.cancelButton {
+    background-color: #6c757d; /* Un gris para cancelar */
+}
+
+.cancelButton:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registerButton:hover {
+    background-color: var(--red-secundary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 900px) {
+    .imageAndInputsWrapper {
+        flex-direction: column; /* Apilar imagen y inputs en pantallas medianas */
+        align-items: center; /* Centrar la imagen cuando se apila */
+    }
+
+    .imageContainer {
+        margin-bottom: 30px; /* Más espacio debajo de la imagen cuando está apilada */
+    }
+
+    .inputsGrid {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas medianas */
+        gap: 20px; /* Menos espacio entre inputs */
+    }
+
+    .mainContentArea {
+        margin-top: 80px; /* Ajuste del margen superior para pantallas más pequeñas */
+    }
+
+    .formContainer {
+        padding: 30px; /* Menos padding en pantallas pequeñas */
+    }
+
+    .title {
+        font-size: 1.8rem;
+        text-align: center; /* Centrar título en móviles */
+    }
+}
+
+@media (max-width: 500px) {
+    .mainContentArea {
+        padding: 0 10px; /* Más estrecho en móviles */
+    }
+
+    .formContainer {
+        padding: 20px;
+    }
+
+    .docRow {
+        flex-direction: column; /* Apilar tipo de documento y número en pantallas muy pequeñas */
+        align-items: stretch;
+    }
+
+    .docRow .Select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .genderContainer {
+        flex-direction: column; /* Apilar opciones de género */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .buttons {
+        flex-direction: column; /* Apilar botones */
+        align-items: center;
+        gap: 15px;
+    }
+
+    .cancelButton,
+    .registerButton {
+        width: 100%; /* Botones ocupan todo el ancho */
+        max-width: 250px; /* Ancho máximo para botones apilados */
+    }
+}

@@ -1,0 +1,261 @@
+@import "../../styles/global.css";
+
+/* =========================================
+   Layout Principal
+   ========================================= */
+.tableContainer {
+  margin: 90px auto 40px;
+  /* Margen superior para evitar solapamiento con Navbar */
+  width: 95%;
+  max-width: 1400px;
+  /* Ancho máximo para pantallas grandes */
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   Header de la Tabla (Título + Acciones)
+   ========================================= */
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #B71C1C;
+  /* Rojo Institucional */
+  margin: 0;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 32px;
+  background-color: #B71C1C;
+  border-radius: 4px;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* =========================================
+   Botones Principales
+   ========================================= */
+.primaryButton,
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 48px;
+  /* Altura generosa y consistente */
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #B71C1C 0%, #900000 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(183, 28, 28, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(183, 28, 28, 0.4);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.secondaryButton {
+  background-color: white;
+  color: #B71C1C;
+  border: 2px solid #f3f4f6;
+}
+
+.secondaryButton:hover {
+  border-color: #B71C1C;
+  background-color: #fffafa;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   Barra de Filtros
+   ========================================= */
+.filtersBar {
+  display: flex;
+  gap: 16px;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f3f4f6;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filterInput,
+.filterSelect {
+  flex: 1;
+  min-width: 220px;
+  padding: 0 16px;
+  height: 48px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #374151;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  outline: none;
+  border-color: #B71C1C;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(183, 28, 28, 0.1);
+}
+
+.filterInput::placeholder {
+  color: #9ca3af;
+}
+
+/* =========================================
+   Badges (Indicadores de Estado/Rol)
+   ========================================= */
+.statusBadge {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+}
+
+.statusActive {
+  background-color: #ecfdf5;
+  /* Emerald-50 */
+  color: #047857;
+  /* Emerald-700 */
+  border: 1px solid #d1fae5;
+}
+
+.statusInactive {
+  background-color: #fef2f2;
+  /* Red-50 */
+  color: #b91c1c;
+  /* Red-700 */
+  border: 1px solid #fee2e2;
+}
+
+.roleBadge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: capitalize;
+}
+
+.roleAdmin {
+  background-color: #fff1f2;
+  /* Rose-50 */
+  color: #be123c;
+  /* Rose-700 */
+  border: 1px solid #fda4af;
+}
+
+.roleDoctor {
+  background-color: #eff6ff;
+  /* Blue-50 */
+  color: #1d4ed8;
+  /* Blue-700 */
+  border: 1px solid #bfdbfe;
+}
+
+/* =========================================
+   Acciones en Filas (Edit/Delete)
+   ========================================= */
+.rowActions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.iconButton {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editBtn {
+  background-color: #f59e0b;
+  /* Amber-500 */
+}
+
+.editBtn:hover {
+  background-color: #d97706;
+  transform: scale(1.05);
+}
+
+.deleteBtn {
+  background-color: #ef4444;
+  /* Red-500 */
+}
+
+.deleteBtn:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+}
