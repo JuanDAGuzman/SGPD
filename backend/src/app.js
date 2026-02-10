@@ -42,6 +42,7 @@ app.get("/db-ping", async (req, res) => {
 if (!isTest) {
   app.use("/api/reports", require("./routes/report"));
   app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/api/admin", require("./routes/admin"));
   app.use("/api/auth", require("./routes/auth"));
   app.use("/api/users", require("./routes/user"));
   app.use("/api/patients", require("./routes/patient"));

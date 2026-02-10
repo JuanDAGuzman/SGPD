@@ -29,6 +29,10 @@ const User = sequelize.define(
       type: DataTypes.ENUM("admin", "doctor", "patient"),
       allowNull: false,
     },
+    status: {
+      type: DataTypes.ENUM("active", "pending", "rejected"),
+      defaultValue: "pending",
+    },
   },
   {
     timestamps: true,

@@ -10,8 +10,29 @@ exports.getAll = async (req, res) => {
   try {
     const { patientId, doctorId } = req.query;
     const where = {};
-    if (patientId) where.patientId = patientId;
-    if (doctorId) where.doctorId = doctorId;
+
+    // Filtros de seguridad según rol
+    if (req.user.role === "patient") {
+      const Patient = require("../models/Patient");
+      const patient = await Patient.findOne({ where: { userId: req.user.id } });
+      if (patient) {
+        where.patientId = patient.id;
+      } else {
+        return res.json([]); // Si no tiene perfil de paciente, no tiene citas
+      }
+    } else if (req.user.role === "doctor") {
+      const Doctor = require("../models/Doctor");
+      const doctor = await Doctor.findOne({ where: { userId: req.user.id } });
+      if (doctor) {
+        where.doctorId = doctor.id;
+      } else {
+        return res.json([]);
+      }
+    } else {
+      // Si es admin, permitimos filtrar por query params
+      if (patientId) where.patientId = patientId;
+      if (doctorId) where.doctorId = doctorId;
+    }
 
     const appointments = await Appointment.findAll({
       where,
@@ -124,8 +145,23 @@ exports.create = async (req, res) => {
     }
 
     try {
-      const paciente = await User.findByPk(patientId);
-      const doctor = await User.findByPk(doctorId);
+      // Buscar modelos relacionales primero para obtener el userId real
+      const Patient = require("../models/Patient");
+      const Doctor = require("../models/Doctor");
+
+      const patientRecord = await Patient.findByPk(patientId);
+      const doctorRecord = await Doctor.findByPk(doctorId);
+
+      if (!patientRecord || !doctorRecord) {
+        throw new Error("No se encontraron registros de paciente o doctor para enviar notificaciones");
+      }
+
+      const paciente = await User.findByPk(patientRecord.userId);
+      const doctor = await User.findByPk(doctorRecord.userId);
+
+      if (!paciente || !doctor) {
+        throw new Error("Usuarios asociados no encontrados");
+      }
 
       let textoPaciente = `Hola ${paciente.name}, tu cita fue programada para el ${date}.`;
       let textoDoctor = `Hola Dr(a). ${doctor.name}, tienes una nueva cita con ${paciente.name} el ${date}.`;

@@ -100,6 +100,14 @@ exports.login = async (req, res) => {
     if (!ok)
       return res.status(401).json({ message: "Credenciales incorrectas" });
 
+    if (user.status !== "active") {
+      return res.status(403).json({
+        message: user.status === "pending"
+          ? "Cuenta pendiente de aprobación. Contacte al administrador."
+          : "Cuenta desactivada o rechazada."
+      });
+    }
+
     const token = jwt.sign(
       { id: user.id, role: user.role, email: user.email },
       process.env.JWT_SECRET,
