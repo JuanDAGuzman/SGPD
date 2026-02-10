@@ -22,6 +22,7 @@ import Register_HealthCenter from "./pages/Management/Admin-M/Centers/register_c
 import HealterCenter_list from "./pages/Management/Admin-M/Centers/center_list";
 import List_patients_admin from "./pages/Management/Admin-M/Users-List/list-user-admin-patient";
 import SignIn from './pages/Auth/SignIn';
+import PendingUsers from "./pages/Management/Admin-M/PendingUsers/PendingUsers";
 
 // Med History
 import PatientMedicalHistory from "./pages/MedicalHistory/Patient/MedicalHistory";
@@ -55,6 +56,7 @@ function App() {
         <Route path="list_patients_doctor" element={<Doctor_M_l />} />
         <Route path="register_patients_doctor" element={<Doctor_M_R />} />
         <Route path="dashboard_admin" element={<Admin_D />} />
+        <Route path="pending_users" element={<PendingUsers />} />
         <Route path="manage_roles" element={<Roles_Admin />} />
         <Route path="user_list_admin" element={<Users_Admin />} />
         <Route path="notifications_admin" element={<Notifications_Admin />} />

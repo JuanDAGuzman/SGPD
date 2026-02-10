@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AdminNavbar from "../../../components/NavBar/AdminNavbar";
 import Footer from "../../../components/Footer/Footer";
 import { FaUsers, FaUserShield, FaBell, FaUserMd, FaHospital, FaClipboardList } from "react-icons/fa";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, UserCheck } from "lucide-react";
 
 interface DashboardStats {
   patients: {
@@ -82,6 +82,17 @@ const DashAdmin: React.FC = () => {
 
           {/* Action Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <Link to="/pending_users" className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-yellow-500">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <UserCheck className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">Solicitudes</h3>
+                  <p className="text-sm text-gray-500">Revisar registros pendientes</p>
+                </div>
+              </div>
+            </Link>
             <Link to="/user_list_admin" className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-[#B71C1C]">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
